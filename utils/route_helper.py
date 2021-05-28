@@ -1,6 +1,8 @@
 import os
 
 from fastapi import Request
+from graphql import ResolveInfo
+
 from ..models.icpdao.user import User
 
 
@@ -31,3 +33,7 @@ def get_current_user(request: Request):
         return request.scope['icpdao.user']
     except:
         return None
+
+
+def get_current_user_by_graphql(info: ResolveInfo):
+    return get_current_user(info.context['request'])
