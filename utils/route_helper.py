@@ -37,3 +37,10 @@ def get_current_user(request: Request):
 
 def get_current_user_by_graphql(info: ResolveInfo):
     return get_current_user(info.context['request'])
+
+
+def path_join(path_a: str, *args):
+    path = path_a.split('/')
+    for p in args:
+        path += p.split('/')
+    return '/' + '/'.join(filter(lambda x: len(x) > 0, path))
