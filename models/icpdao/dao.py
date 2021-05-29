@@ -50,7 +50,8 @@ class DAOJobConfig(Document):
     }
 
     dao_id = StringField(required=True)
-    time_zone = IntField(required=True, default=0)
+    time_zone = IntField(required=True, default=480)
+    time_zone_region = StringField(required=True, default='Asia/Shanghai')
     deadline_day = IntField(required=True, max_value=28, min_value=1, default=1)
     deadline_time = IntField(required=True, max_value=24, min_value=0, default=12)
 
