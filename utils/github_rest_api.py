@@ -4,13 +4,15 @@ import datetime
 import jwt
 
 
-def get_github_org_id(org):
+def get_github_org_id(access_token, org):
     # curl \
+    # -H "Authorization: token <access_token>" \
     # -H "Accept: application/vnd.github.v3+json" \
     # https://api.github.com/orgs/<org>
     url = "https://api.github.com/orgs/{}".format(org)
     headers = {
-        "Accept": "application/json"
+        "Accept": "application/json",
+        "Authorization": "token {}".format(access_token)
     }
     res = requests.get(url=url, headers=headers, timeout=10)
     res_json = json.loads(res.text)
