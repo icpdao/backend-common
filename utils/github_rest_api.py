@@ -14,6 +14,8 @@ def get_github_org_id(org):
     }
     res = requests.get(url=url, headers=headers, timeout=10)
     res_json = json.loads(res.text)
+    if res_json.get("message"):
+        return None
     return res_json["id"]
 
 
