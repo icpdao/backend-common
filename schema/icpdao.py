@@ -1,5 +1,6 @@
 from graphene_mongo import MongoengineObjectType
 
+from ..models.icpdao.job import Job, JobPR
 from ..models.icpdao.user import User as UserModel
 from ..models.icpdao.dao import DAO as DAOModel, \
     DAOJobConfig as DAOJobConfigModel, DAOFollow
@@ -26,3 +27,13 @@ class DAOJobConfigSchema(MongoengineObjectType):
 class DAOFollowSchema(MongoengineObjectType):
     class Meta:
         model = DAOFollow
+
+
+class JobSchema(MongoengineObjectType):
+    class Meta:
+        model = Job
+
+
+class JobPRSchema(MongoengineObjectType):
+    class Meta:
+        model = JobPR
