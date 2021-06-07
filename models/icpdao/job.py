@@ -82,6 +82,8 @@ class JobPR(Document):
     merged_user_github_login = StringField()
     merged_at = IntField()
 
+    create_at = IntField(required=True, default=time.time)
+
 
 class JobPRComment(Document):
     meta = {

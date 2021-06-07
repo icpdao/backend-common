@@ -95,10 +95,10 @@ class GithubAppClient:
             'id': res['id'],
             'node_id': res['node_id'],
             'number': res['number'],
-            'state': JobPRStatusEnum.MERGED.value if res.get('merged') else JobPRStatusEnum.CLOSED.value if res.get('state') == 'closed' else JobPRStatusEnum.OPEN.value,
+            'state': JobPRStatusEnum.MERGED.value if res.get('merged') else JobPRStatusEnum.AWAITING_MERGER.value,
             'title': res['title'],
             'created_at': res['created_at'], 'updated_at': res['updated_at'],
-            'closed_at': res['closed_at'], 'merged_at': merged_at,
+            'closed_at': res.get('closed_at'), 'merged_at': merged_at,
             'user_login': res['user']['login'],
             'can_link_logins': can_link_logins,
             'merged_login': merged_login
@@ -131,7 +131,7 @@ class GithubAppClient:
             'id': res['id'],
             'node_id': res['node_id'],
             'number': res['number'],
-            'state': JobPRStatusEnum.OPEN.value,
+            'state': JobPRStatusEnum.AWAITING_MERGER.value,
             'title': res['title'],
         }
 
@@ -198,7 +198,6 @@ class GithubAppClient:
 
     def __update_comment(self, repo_name, comment_id, new_body):
         url = f'/repos/{self.repo_owner}/{repo_name}/issues/comments/{comment_id}'
-        print(url)
         return self.request.patch(url, {'body': new_body})
 
     def __get_pr(self, repo_name, pr_number):
