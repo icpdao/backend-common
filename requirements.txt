@@ -5,3 +5,4 @@ graphene>=2.0
 requests==2.25.1
 PyJWT==2.0.1
 cryptography==3.4.7
+responses
