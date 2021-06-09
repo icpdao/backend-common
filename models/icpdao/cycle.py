@@ -16,7 +16,10 @@ class VoteResultTypeAllResultType(enum.Enum):
 
 class VoteResultTypeAll(EmbeddedDocument):
     voter_id = StringField(required=True)
-    result = EnumField(VoteResultTypeAllResultType, required=True)
+    result = IntField(
+        required=True,
+        choices=[i.value for i in list(VoteResultTypeAllResultType)]
+    )
 
     create_at = IntField(required=True, default=time.time)
     update_at = IntField(required=True, default=time.time)
@@ -89,7 +92,11 @@ class CycleVote(Document):
     left_job_id = StringField(required=True)
     right_job_id = StringField(required=True)
 
-    vote_type = EnumField(CycleVoteType, required=True, default=CycleVoteType.PAIR)
+    vote_type = IntField(
+        required=True,
+        default=CycleVoteType.PAIR.value,
+        choices=[i.value for i in list(CycleVoteType)]
+    )
 
     # type pair
     vote_job_id = StringField()
