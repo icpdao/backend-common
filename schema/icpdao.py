@@ -54,9 +54,9 @@ class CycleIcpperStatSchema(MongoengineObjectType):
         dao_owner_id = get_custom_attr_by_graphql(info, 'dao_owner_id')
         current_user = get_current_user_by_graphql(info)
         if not current_user:
-            raise PermissionError('NOT LOGIN')
+            return None
         if str(current_user.id) != dao_owner_id:
-            raise PermissionError('NO ROLE')
+            return None
 
         return self.vote_ei
 
@@ -64,9 +64,9 @@ class CycleIcpperStatSchema(MongoengineObjectType):
         dao_owner_id = get_custom_attr_by_graphql(info, 'dao_owner_id')
         current_user = get_current_user_by_graphql(info)
         if not current_user:
-            raise PermissionError('NOT LOGIN')
+            return None
         if str(current_user.id) != dao_owner_id:
-            raise PermissionError('NO ROLE')
+            return None
 
         return self.owner_ei
 
@@ -74,3 +74,40 @@ class CycleIcpperStatSchema(MongoengineObjectType):
 class CycleVoteSchema(MongoengineObjectType):
     class Meta:
         model = CycleVote
+        exclude_fields = ['vote_result_type_all']
+
+    @staticmethod
+    def have_view_vote_job_id_role(info, cycle_vote):
+        if cycle_vote.is_result_public:
+            return True
+
+        current_user = get_current_user_by_graphql(info)
+        if current_user and cycle_vote.voter_id and cycle_vote.voter_id == str(current_user.id):
+            return True
+
+        return False
+
+    @staticmethod
+    def have_view_voter_id_role(info, cycle_vote):
+        if cycle_vote.is_result_public:
+            return True
+
+        dao_owner_id = get_custom_attr_by_graphql(info, 'dao_owner_id')
+        current_user = get_current_user_by_graphql(info)
+        if current_user and dao_owner_id == str(current_user.id):
+            return True
+
+        if current_user and cycle_vote.voter_id and cycle_vote.voter_id == str(current_user.id):
+            return True
+
+        return False
+
+    def resolve_vote_job_id(self, info):
+        if CycleVoteSchema.have_view_vote_job_id_role(info, self):
+            return self.vote_job_id
+        return None
+
+    def resolve_voter_id(self, info):
+        if CycleVoteSchema.have_view_voter_id_role(info, self):
+            return self.voter_id
+        return None
