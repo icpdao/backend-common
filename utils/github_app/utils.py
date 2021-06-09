@@ -9,7 +9,7 @@ class LinkType(enum.Enum):
     pr = 2
 
 
-def parse_issue(issue: str, github_repo_owner: str) -> MutableMapping:
+def parse_issue(issue: str, github_repo_owner: str = None) -> MutableMapping:
     try:
         url_parse = urlparse(issue)
         if url_parse.scheme not in ['http', 'https']:
@@ -18,7 +18,7 @@ def parse_issue(issue: str, github_repo_owner: str) -> MutableMapping:
             paths = url_parse.path.split('/')
             if paths[3] != 'issues':
                 return {'success': False, 'msg': 'NOT ISSUE'}
-            if paths[1] != github_repo_owner:
+            if github_repo_owner is not None and paths[1] != github_repo_owner:
                 return {'success': False, 'msg': 'NOT RIGHT OWNER'}
             return {
                 'success': True,
