@@ -44,3 +44,19 @@ def path_join(path_a: str, *args):
     for p in args:
         path += p.split('/')
     return '/' + '/'.join(filter(lambda x: len(x) > 0, path))
+
+
+def get_custom_attr_by_graphql(info: ResolveInfo, attr_name):
+    scope = info.context['request'].scope
+    value = scope.get('icpdao.custom_attrs', None)
+    if not value:
+        scope['icpdao.custom_attrs'] = {}
+    return scope['icpdao.custom_attrs'][attr_name]
+
+
+def set_custom_attr_by_graphql(info: ResolveInfo, attr_name, attr_value):
+    scope = info.context['request'].scope
+    value = scope.get('icpdao.custom_attrs', None)
+    if not value:
+        scope['icpdao.custom_attrs'] = {}
+    scope['icpdao.custom_attrs'][attr_name] = attr_value
