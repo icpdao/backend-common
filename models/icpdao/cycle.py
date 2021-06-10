@@ -14,6 +14,13 @@ class VoteResultTypeAllResultType(enum.Enum):
     NO = 1
 
 
+class CycleVotePairTaskStatus(enum.Enum):
+    INIT = 0
+    PAIRING = 1
+    SUCCESS = 2
+    FAIL = 3
+
+
 class VoteResultTypeAll(EmbeddedDocument):
     voter_id = StringField(required=True)
     result = IntField(
@@ -51,8 +58,9 @@ class Cycle(Document):
     vote_begin_at = IntField(required=True, default=time.time)
     vote_end_at = IntField(required=True, default=time.time)
 
-    is_paired = BooleanField(default=False)
-    is_vote_result_published = BooleanField(default=False)
+    paired_at = IntField()
+    vote_result_stat_at = IntField()
+    vote_result_published_at = IntField()
 
     create_at = IntField(required=True, default=time.time)
     update_at = IntField(required=True, default=time.time)
@@ -108,6 +116,25 @@ class CycleVote(Document):
     vote_result_stat_type_all = IntField()  # 赞同的百分比
 
     is_result_public = BooleanField(required=True, default=False)
+
+    create_at = IntField(required=True, default=time.time)
+    update_at = IntField(required=True, default=time.time)
+
+
+class CycleVotePairTask(Document):
+    meta = {
+        'db_alias': 'icpdao',
+        'collection': 'cycle_vote_pair_task'
+    }
+
+    dao_id = StringField(required=True)
+    cycle_id = StringField(required=True)
+
+    status = IntField(
+        required=True,
+        default=CycleVotePairTaskStatus.INIT.value,
+        choices=[i.value for i in list(CycleVotePairTaskStatus)]
+    )
 
     create_at = IntField(required=True, default=time.time)
     update_at = IntField(required=True, default=time.time)
