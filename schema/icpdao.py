@@ -89,9 +89,6 @@ class CycleVoteSchema(MongoengineObjectType):
 
     @staticmethod
     def have_view_voter_id_role(info, cycle_vote):
-        if cycle_vote.is_result_public:
-            return True
-
         dao_owner_id = get_custom_attr_by_graphql(info, 'dao_owner_id')
         current_user = get_current_user_by_graphql(info)
         if current_user and dao_owner_id == str(current_user.id):
