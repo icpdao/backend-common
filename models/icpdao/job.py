@@ -2,7 +2,7 @@ import enum
 import time
 
 
-from mongoengine import Document, StringField, IntField, EnumField, DecimalField
+from mongoengine import Document, StringField, IntField, EnumField, DecimalField, ListField
 
 
 class JobStatusEnum(enum.Enum):
@@ -33,6 +33,8 @@ class Job(Document):
 
     title = StringField(required=True)
     body_text = StringField()
+    # TODO 增加 labels 处理
+    labels = ListField(StringField())
 
     size = DecimalField(required=True, precision=1)
 
@@ -66,6 +68,7 @@ class JobPR(Document):
         'collection': 'job_pr'
     }
 
+    # TODO 增加 cycle_id 外键
     job_id = StringField(required=True)
     user_id = StringField(required=True)
     title = StringField(required=True)
