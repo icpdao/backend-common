@@ -23,7 +23,7 @@ class CycleVotePairTaskStatus(enum.Enum):
 
 class CycleVoteResultStatTaskStatus(enum.Enum):
     INIT = 0
-    PAIRING = 1
+    STATING = 1
     SUCCESS = 2
     FAIL = 3
 
@@ -84,8 +84,13 @@ class CycleIcpperStat(Document):
     user_id = StringField(required=True)
 
     job_count = IntField(required=True, default=0)
+    # all merged job size
+    job_size = DecimalField(required=True, precision=1, default=0)
+    # get size
     size = DecimalField(required=True, precision=1, default=0)
     income = IntField(required=True, default=0)
+    # at the vote end , not voted all vote
+    un_voted_all_vote = BooleanField()
 
     vote_ei = DecimalField(required=True, precision=2, default=0)
     owner_ei = DecimalField(required=True, precision=2, default=0)
