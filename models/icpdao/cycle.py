@@ -21,6 +21,13 @@ class CycleVotePairTaskStatus(enum.Enum):
     FAIL = 3
 
 
+class CycleVoteResultStatTaskStatus(enum.Enum):
+    INIT = 0
+    PAIRING = 1
+    SUCCESS = 2
+    FAIL = 3
+
+
 class VoteResultTypeAll(EmbeddedDocument):
     voter_id = StringField(required=True)
     result = IntField(
@@ -134,6 +141,25 @@ class CycleVotePairTask(Document):
         required=True,
         default=CycleVotePairTaskStatus.INIT.value,
         choices=[i.value for i in list(CycleVotePairTaskStatus)]
+    )
+
+    create_at = IntField(required=True, default=time.time)
+    update_at = IntField(required=True, default=time.time)
+
+
+class CycleVoteResultStatTask(Document):
+    meta = {
+        'db_alias': 'icpdao',
+        'collection': 'cycle_vote_result_stat_task'
+    }
+
+    dao_id = StringField(required=True)
+    cycle_id = StringField(required=True)
+
+    status = IntField(
+        required=True,
+        default=CycleVoteResultStatTaskStatus.INIT.value,
+        choices=[i.value for i in list(CycleVoteResultStatTaskStatus)]
     )
 
     create_at = IntField(required=True, default=time.time)
