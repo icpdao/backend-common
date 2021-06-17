@@ -96,6 +96,11 @@ class CycleIcpperStat(Document):
     owner_ei = DecimalField(required=True, precision=2, default=0)
     ei = DecimalField(required=True, precision=2, default=0)
 
+
+
+    # user_id 在 dao_id 中的上一个 cycle_icpper_stat.id
+    last_id = StringField()
+
     create_at = IntField(required=True, default=time.time)
     update_at = IntField(required=True, default=time.time)
 
