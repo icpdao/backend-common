@@ -1,7 +1,8 @@
 import enum
 import time
 
-from mongoengine import Document, EmbeddedDocument, BooleanField, IntField, StringField, DecimalField, EnumField, EmbeddedDocumentListField
+from mongoengine import Document, EmbeddedDocument, BooleanField, IntField, StringField, DecimalField, EnumField, \
+    EmbeddedDocumentListField, ListField
 
 
 class CycleVoteType(enum.Enum):
@@ -91,10 +92,23 @@ class CycleIcpperStat(Document):
     income = IntField(required=True, default=0)
     # at the vote end , not voted all vote
     un_voted_all_vote = BooleanField()
+    # have two times lt 0.8
+    have_two_times_lt_08 = BooleanField()
+    # have two times lt 0.4
+    have_two_times_lt_04 = BooleanField()
 
     vote_ei = DecimalField(required=True, precision=2, default=0)
     owner_ei = DecimalField(required=True, precision=2, default=0)
     ei = DecimalField(required=True, precision=2, default=0)
+
+    # current cycle have warning review user id list
+    has_warning_review_user_ids = ListField()
+
+    # review 扣除的 size
+    has_deducted_review_size = DecimalField(precision=2)
+
+    # user_id 在 dao_id 中的上一个 cycle_icpper_stat.id
+    last_id = StringField()
 
     create_at = IntField(required=True, default=time.time)
     update_at = IntField(required=True, default=time.time)
