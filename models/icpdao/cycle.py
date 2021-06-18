@@ -102,10 +102,9 @@ class CycleIcpperStat(Document):
     ei = DecimalField(required=True, precision=2, default=0)
 
     # current cycle have warning review user id list
-    has_warning_review_user_ids = ListField()
-
+    be_reviewer_has_warning_user_ids = ListField()
     # review 扣除的 size
-    has_deducted_review_size = DecimalField(precision=2)
+    be_deducted_size_by_review = DecimalField(precision=2)
 
     # user_id 在 dao_id 中的上一个 cycle_icpper_stat.id
     last_id = StringField()
