@@ -109,7 +109,7 @@ class CycleIcpperStat(Document):
     ei = DecimalField(required=True, precision=2, default=0)
 
     # current cycle have warning review user id list
-    be_reviewer_has_warning_user_ids = ListField()
+    be_reviewer_has_warning_user_ids = ListField(required=True, default=[])
     # review 扣除的 size
     be_deducted_size_by_review = DecimalField(precision=2)
 
