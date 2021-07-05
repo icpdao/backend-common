@@ -19,6 +19,8 @@ class User(Document):
     nickname = StringField(required=True, max_length=255)
     # github login
     github_login = StringField(required=True, max_length=255)
+    # github user id
+    github_user_id = IntField(required=True)
     # avatar
     avatar = StringField(required=True, max_length=255)
     # 用户类型

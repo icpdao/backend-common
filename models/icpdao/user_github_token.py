@@ -1,5 +1,3 @@
-from enum import Enum
-import time
 from mongoengine import Document, StringField, IntField
 
 
@@ -9,6 +7,8 @@ class UserGithubToken(Document):
         'collection': 'user_github_token'
     }
 
+    # github user id
+    github_user_id = IntField(required=True)
     # github login
     github_login = StringField(required=True, max_length=255)
     # access_token

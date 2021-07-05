@@ -30,8 +30,10 @@ class Icppership(Document):
         default=IcppershipStatus.PRE_ICPPER.value,
         choices=[i.value for i in list(IcppershipStatus)])
 
-    mentor_github_login = StringField(required=True, max_length=255)
     icpper_github_login = StringField(required=True, max_length=255)
+
+    mentor_user_id = StringField(required=True)
+    icpper_user_id = StringField()
 
     # 创建时间
     create_at = IntField(required=True, default=time.time)
@@ -42,9 +44,10 @@ class Icppership(Document):
     # 用户成为 icpper 的时间
     icpper_at = IntField()
 
-    def accept(self):
+    def accept(self, icpper_user_id):
         if self.progress == IcppershipProgress.PENDING.value:
             self.progress = IcppershipProgress.ACCEPT.value
+            self.icpper_user_id = icpper_user_id
             self.accept_at = int(time.time())
             self.save()
 
