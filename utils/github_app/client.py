@@ -51,6 +51,11 @@ class GithubAPIRequest:
             self.rest_api + url, json=json, **self.normal, **kwargs)
         return self.__get_return(ret)
 
+    def delete(self, url):
+        ret = self.req.delete(
+            self.rest_api + url)
+        return self.__get_return(ret)
+
 
 class GithubAppClient:
     auto_content_path = 'file_bot'
@@ -64,6 +69,9 @@ class GithubAppClient:
 
     def update_comment(self, repo_name, comment_id, body):
         return self.__update_comment(repo_name, comment_id, body)
+
+    def delete_comment(self, repo_name, comment_id):
+        return self.__delete_comment(repo_name, comment_id)
 
     def get_issue(self, repo_name, issue_number):
         return self.__get_issue(repo_name, issue_number)
@@ -199,6 +207,10 @@ class GithubAppClient:
     def __update_comment(self, repo_name, comment_id, new_body):
         url = f'/repos/{self.repo_owner}/{repo_name}/issues/comments/{comment_id}'
         return self.request.patch(url, {'body': new_body})
+
+    def __delete_comment(self, repo_name, comment_id):
+        url = f'/repos/{self.repo_owner}/{repo_name}/issues/comments/{comment_id}'
+        return self.request.delete(url)
 
     def __get_pr(self, repo_name, pr_number):
         url = f'/repos/{self.repo_owner}/{repo_name}/pulls/{pr_number}'

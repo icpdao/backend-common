@@ -16,6 +16,10 @@ class DAO(Document):
     desc = StringField()
     # DAO owner user id
     owner_id = StringField(required=True)
+    # github owner id
+    github_owner_id = IntField(required=True)
+    # github owner name
+    github_owner_name = StringField(required=True)
 
     # 创建时间
     create_at = IntField(required=True, default=time.time)
