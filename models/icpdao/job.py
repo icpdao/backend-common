@@ -82,7 +82,8 @@ class JobPR(Document):
                       default=JobPRStatusEnum.AWAITING_MERGER.value,
                       choices=[i.value for i in list(JobPRStatusEnum)])
 
-    merged_user_github_login = StringField()
+    merged_user_github_user_id = IntField()
+
     merged_at = IntField()
 
     create_at = IntField(required=True, default=time.time)

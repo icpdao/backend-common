@@ -75,17 +75,17 @@ class GithubAppClient:
         success, res = self.__get_pr(repo_name, pr_number)
         if not success:
             return False, res.get('message')
-        can_link_logins = set()
+        can_link_github_user_id_list = set()
         success, revs = self.__get_pr_reviews(repo_name, pr_number)
         if success:
             for re in revs:
                 if re.get('state') in ['APPROVE', 'REQUEST_CHANGES', 'COMMENT']:
-                    can_link_logins.add(re.get('user', {}).get('login'))
-        can_link_logins.add(res.get('user', {}).get('login'))
-        merged_login = None
+                    can_link_github_user_id_list.add(re.get('user', {}).get('id'))
+        can_link_github_user_id_list.add(res.get('user', {}).get('id'))
+        merged_user_github_user_id = None
         if res.get('merged_by'):
-            can_link_logins.add(res.get('merged_by').get('login'))
-            merged_login = res.get('merged_by').get('login')
+            can_link_github_user_id_list.add(res.get('merged_by').get('id'))
+            merged_user_github_user_id = res.get('merged_by').get('id')
         merged_at = res.get('merged_at')
         if merged_at:
             merged_at = iso8601.parse_date(res['merged_at'])
@@ -100,8 +100,8 @@ class GithubAppClient:
             'created_at': res['created_at'], 'updated_at': res['updated_at'],
             'closed_at': res.get('closed_at'), 'merged_at': merged_at,
             'user_login': res['user']['login'],
-            'can_link_logins': can_link_logins,
-            'merged_login': merged_login
+            'can_link_github_user_id_list': can_link_github_user_id_list,
+            'merged_user_github_user_id': merged_user_github_user_id
         }
 
     def create_pr(self, link, repo_name, issue_number, github_login):
