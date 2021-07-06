@@ -11,16 +11,16 @@ class GithubAppToken(Document):
         'db_alias': 'icpdao',
         'collection': 'github_app_token'
     }
-    dao_name = StringField(required=True)
+    github_owner_id = IntField(required=True)
     token = StringField(required=True)
     expires_at = IntField(required=True)
 
     @classmethod
-    def get_token(cls, app_id: str, app_private_key: str, dao_name: str):
-        token_record = cls.objects(dao_name=dao_name).first()
+    def get_token(cls, app_id: str, app_private_key: str, github_owner_name: str, github_owner_id: int):
+        token_record = cls.objects(github_owner_id=github_owner_id).first()
         if token_record and token_record.expires_at > (int(time.time()) - 10):
             return token_record.token
-        new_token = cls.__req_token(app_id, app_private_key, dao_name)
+        new_token = cls.__req_token(app_id, app_private_key, github_owner_name)
         if not new_token:
             return None
         expired_time = iso8601.parse_date(new_token['expires_at'])
@@ -31,8 +31,8 @@ class GithubAppToken(Document):
             token_record.expires_at = expires_at
         else:
             token_record = cls(
-                token=new_token['token'], expires_at=expires_at,
-                dao_name=dao_name)
+                github_owner_id=github_owner_id,
+                token=new_token['token'], expires_at=expires_at)
         token_record.save()
         return token_record.token
 

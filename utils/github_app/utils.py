@@ -34,7 +34,7 @@ def parse_issue(issue: str, github_repo_owner: str = None) -> MutableMapping:
         return {'success': False, 'msg': 'PARSE ISSUE ERROR'}
 
 
-def parse_pr(pr: str, github_repo_owner: str) -> MutableMapping:
+def parse_pr(pr: str) -> MutableMapping:
     try:
         url_parse = urlparse(pr)
         if url_parse.scheme not in ['http', 'https']:
@@ -43,8 +43,6 @@ def parse_pr(pr: str, github_repo_owner: str) -> MutableMapping:
             paths = url_parse.path.split('/')
             if paths[3] != 'pull':
                 return {'success': False, 'msg': 'NOT PR'}
-            if paths[1] != github_repo_owner:
-                return {'success': False, 'msg': 'NOT RIGHT OWNER'}
             return {
                 'success': True,
                 'type': LinkType.pr,
