@@ -40,6 +40,7 @@ class Job(Document):
 
     github_repo_owner = StringField(required=True)
     github_repo_name = StringField(required=True)
+    github_repo_owner_id = IntField(required=True)
     github_repo_id = IntField(required=True)
     github_issue_number = IntField(required=True)
 
@@ -75,6 +76,7 @@ class JobPR(Document):
 
     github_repo_owner = StringField(required=True)
     github_repo_name = StringField(required=True)
+    github_repo_owner_id = IntField(required=True)
     github_repo_id = IntField(required=True)
     github_pr_number = IntField(required=True)
 
