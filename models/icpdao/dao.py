@@ -64,9 +64,9 @@ class DAOJobConfig(Document):
     pair_end_day = IntField(required=True, max_value=28, min_value=1, default=2)
     pair_end_hour = IntField(required=True, max_value=24, min_value=0, default=12)
 
-    voting_begin_day = IntField(required=True, max_value=28, min_value=1, default=1)
+    voting_begin_day = IntField(required=True, max_value=28, min_value=1, default=2)
     voting_begin_hour = IntField(required=True, max_value=24, min_value=0, default=12)
-    voting_end_day = IntField(required=True, max_value=28, min_value=1, default=2)
+    voting_end_day = IntField(required=True, max_value=28, min_value=1, default=3)
     voting_end_hour = IntField(required=True, max_value=24, min_value=0, default=12)
 
     # 创建时间
