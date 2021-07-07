@@ -53,7 +53,7 @@ class GithubAPIRequest:
 
     def delete(self, url):
         ret = self.req.delete(
-            self.rest_api + url)
+            self.rest_api + url, **self.normal)
         return self.__get_return(ret)
 
 
