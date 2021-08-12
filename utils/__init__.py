@@ -7,7 +7,7 @@ def check_size(size: float):
         raise ValueError('SIZE NOT AVAILABLE')
 
 
-def get_next_time(time_zone, last_at, time_day, time_hour):
+def get_next_time(time_zone, last_at, time_day, time_hour, can_eq=False):
     """
     time_zone 是时区数字
     last_at utc 时间戳
@@ -16,8 +16,13 @@ def get_next_time(time_zone, last_at, time_day, time_hour):
     result: time_zone 下一个 time_day time_hour 具体的 UTC 时间戳
     """
     last_time = datetime.datetime.fromtimestamp(last_at, tz=datetime.timezone(datetime.timedelta(minutes=time_zone)))
-    if time_day > last_time.day or (
-            time_day == last_time.day and time_hour > last_time.hour):
+    is_eq = time_day == last_time.day and time_hour == last_time.hour
+    is_gt = time_day > last_time.day or (time_day == last_time.day and time_hour > last_time.hour)
+    if can_eq:
+        flag = is_eq or is_gt
+    else:
+        flag = is_gt
+    if flag:
         next_datetime = datetime.datetime(
             year=last_time.year,
             month=last_time.month,
