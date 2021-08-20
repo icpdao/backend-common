@@ -77,6 +77,8 @@ class Cycle(Document):
     vote_result_stat_at = IntField()
     vote_result_published_at = IntField()
 
+    token_released_at = IntField()
+
     create_at = IntField(required=True, default=time.time)
     update_at = IntField(required=True, default=time.time)
 
@@ -96,7 +98,7 @@ class CycleIcpperStat(Document):
     job_size = DecimalField(required=True, precision=1, default=0)
     # get size
     size = DecimalField(required=True, precision=1, default=0)
-    income = IntField(required=True, default=0)
+    income = DecimalField(required=True, precision=3, default=0)
     # at the vote end , not voted all vote
     un_voted_all_vote = BooleanField()
     # have two times lt 0.8
