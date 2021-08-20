@@ -50,7 +50,7 @@ class Job(Document):
                       choices=[i.value for i in list(JobStatusEnum)])
 
     # income only exist in TOKEN_RELEASED
-    income = IntField(required=True, default=0)
+    income = DecimalField(required=True, precision=3, default=0)
 
     # vote type
     pair_type = IntField(required=True,
