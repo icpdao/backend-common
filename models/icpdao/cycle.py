@@ -10,6 +10,11 @@ class CycleVoteType(enum.Enum):
     ALL = 1
 
 
+class CycleVoteConfirmStatus(enum.Enum):
+    WAITING = 0
+    CONFIRM = 1
+
+
 class VoteResultTypeAllResultType(enum.Enum):
     YES = 0
     NO = 1
@@ -153,6 +158,30 @@ class CycleVote(Document):
 
     create_at = IntField(required=True, default=time.time)
     update_at = IntField(required=True, default=time.time)
+
+
+class CycleVoteConfirm(Document):
+    meta = {
+        'db_alias': 'icpdao',
+        'collection': 'cycle_vote_confirm'
+    }
+
+    dao_id = StringField(required=True)
+    cycle_id = StringField(required=True)
+    voter_id = StringField(required=True)
+
+    signature_address = StringField()
+    signature_msg = StringField()
+    signature = StringField()
+
+    create_at = IntField(required=True, default=time.time)
+    update_at = IntField(required=True, default=time.time)
+
+    status = IntField(
+        required=True,
+        default=CycleVoteConfirmStatus.WAITING.value,
+        choices=[i.value for i in list(CycleVoteConfirmStatus)]
+    )
 
 
 class CycleVotePairTask(Document):
