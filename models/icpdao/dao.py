@@ -21,6 +21,8 @@ class DAO(Document):
     # github owner name
     github_owner_name = StringField(required=True)
 
+    token_address = StringField()
+
     # 创建时间
     create_at = IntField(required=True, default=time.time)
     update_at = IntField(required=True, default=time.time)
