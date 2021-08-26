@@ -19,3 +19,5 @@ class UserGithubToken(Document):
     refresh_token = StringField(required=True, max_length=255)
     # refresh_token_expires_in
     refresh_token_expires_in = IntField(required=True)
+    # token_at
+    token_at = IntField(required=True)
