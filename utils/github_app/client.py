@@ -12,6 +12,7 @@ class GithubAPIRequest:
 
     def __init__(self, token: str):
         self.req = requests
+        self.token = token
         self.normal = {
             'headers': {
                 "Accept": "application/json",
@@ -34,6 +35,16 @@ class GithubAPIRequest:
 
     def get(self, url, **kwargs):
         ret = self.req.get(self.rest_api + url, **self.normal, **kwargs)
+        return self.__get_return(ret)
+
+    def get_preview(self, url, **kwargs):
+        ret = self.req.get(self.rest_api + url, **{
+            'headers': {
+                "Accept": 'application/vnd.github.mockingbird-preview+json',
+                "Authorization": f"token {self.token}"
+            },
+            'timeout': 10
+        }, **kwargs)
         return self.__get_return(ret)
 
     def post(self, url, json, **kwargs):
@@ -75,6 +86,12 @@ class GithubAppClient:
 
     def get_issue(self, repo_name, issue_number):
         return self.__get_issue(repo_name, issue_number)
+
+    def get_issue_timeline(self, repo_name, issue_number):
+        return self.__get_issue_timeline(repo_name, issue_number)
+
+    def get_user_open_pr(self, github_login):
+        return self.__get_open_pr(github_login)
 
     def get_repo(self, repo_name):
         return self.__get_repo(repo_name)
@@ -223,6 +240,16 @@ class GithubAppClient:
     def __get_issue(self, repo_name, issue_number):
         url = f'/repos/{self.repo_owner}/{repo_name}/issues/{issue_number}'
         return self.request.get(url)
+
+    def __get_issue_timeline(self, repo_name, issue_number):
+        url = f'/repos/{self.repo_owner}/{repo_name}/issues/{issue_number}/timeline'
+        return self.request.get_preview(url)
+
+    def __get_open_pr(self, user):
+        url = f'/search/issues'
+        return self.request.get(url, params={
+            'q': f'is:open is:pr author:{user} archived:false user:{self.repo_owner}'
+        })
 
     @staticmethod
     def __encode_base64_content(content: str):

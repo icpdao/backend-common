@@ -52,7 +52,7 @@ def parse_pr(pr: str) -> MutableMapping:
                     'github_pr_number': int(paths[4])
                 }
             }
-        return {'success': True, 'type': LinkType.other}
+        return {'success': False, 'msg': 'NOT GITHUB URL'}
     except Exception as e:
         return {'success': False, 'msg': 'PARSE PR ERROR'}
 

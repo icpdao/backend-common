@@ -2,7 +2,7 @@ import enum
 import time
 
 
-from mongoengine import Document, StringField, IntField, EnumField, DecimalField, ListField
+from mongoengine import Document, StringField, IntField, EnumField, DecimalField, ListField, BooleanField
 
 
 class JobStatusEnum(enum.Enum):
@@ -48,7 +48,7 @@ class Job(Document):
     status = IntField(required=True,
                       default=JobStatusEnum.AWAITING_MERGER.value,
                       choices=[i.value for i in list(JobStatusEnum)])
-
+    had_auto_create_pr = BooleanField(required=True, default=False)
     # income only exist in TOKEN_RELEASED
     income = DecimalField(required=True, precision=3, default=0)
 
@@ -79,10 +79,13 @@ class JobPR(Document):
     github_repo_owner_id = IntField(required=True)
     github_repo_id = IntField(required=True)
     github_pr_number = IntField(required=True)
+    github_pr_id = IntField(required=True)
 
     status = IntField(required=True,
                       default=JobPRStatusEnum.AWAITING_MERGER.value,
                       choices=[i.value for i in list(JobPRStatusEnum)])
+
+    is_auto_create_pr = BooleanField(required=True, default=False)
 
     merged_user_github_user_id = IntField()
 
