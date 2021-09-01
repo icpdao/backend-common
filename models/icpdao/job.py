@@ -79,6 +79,7 @@ class JobPR(Document):
     github_repo_owner_id = IntField(required=True)
     github_repo_id = IntField(required=True)
     github_pr_number = IntField(required=True)
+    # actually /repo/... /issues/x id not /repo/... /pulls/x
     github_pr_id = IntField(required=True)
 
     status = IntField(required=True,
