@@ -51,6 +51,12 @@ class Icppership(Document):
             self.accept_at = int(time.time())
             self.save()
 
+    def cancle_accept(self):
+        self.progress = IcppershipProgress.PENDING.value
+        self.icpper_user_id = None
+        self.accept_at = None
+        self.save()
+
     def update_to_icpper(self):
         if self.progress == IcppershipProgress.ICPPER.value:
             return
