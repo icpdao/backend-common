@@ -6,12 +6,13 @@ from mongoengine import Document, StringField, IntField
 class IcppershipProgress(Enum):
     PENDING     = 0 # 用户收到邀请状态时的值
     ACCEPT      = 1 # 用户接受邀请状态时的值
-    ICPPER      = 2 # 用户成为 icpper 时的值
 
 
 class IcppershipStatus(Enum):
-    PRE_ICPPER  = 1  # 用户收到邀请和接受邀请两种状态时的值
-    ICPPER      = 2  # 用户成为 icpper 时的值
+    # 冗余数据，同步记录 icpper_user.status
+    NORMAL      = 0
+    PRE_ICPPER  = 1
+    ICPPER      = 2
 
 
 class Icppership(Document):
@@ -27,7 +28,7 @@ class Icppership(Document):
 
     # 用户状态
     status = IntField(required=True,
-        default=IcppershipStatus.PRE_ICPPER.value,
+        default=IcppershipStatus.NORMAL.value,
         choices=[i.value for i in list(IcppershipStatus)])
 
     icpper_github_login = StringField(required=True, max_length=255)
@@ -43,24 +44,3 @@ class Icppership(Document):
 
     # 用户成为 icpper 的时间
     icpper_at = IntField()
-
-    def accept(self, icpper_user_id):
-        if self.progress == IcppershipProgress.PENDING.value:
-            self.progress = IcppershipProgress.ACCEPT.value
-            self.icpper_user_id = icpper_user_id
-            self.accept_at = int(time.time())
-            self.save()
-
-    def cancle_accept(self):
-        self.progress = IcppershipProgress.PENDING.value
-        self.icpper_user_id = None
-        self.accept_at = None
-        self.save()
-
-    def update_to_icpper(self):
-        if self.progress == IcppershipProgress.ICPPER.value:
-            return
-        self.progress = IcppershipProgress.ICPPER.value
-        self.status = IcppershipStatus.ICPPER.value
-        self.icpper_at = int(time.time())
-        self.save()
