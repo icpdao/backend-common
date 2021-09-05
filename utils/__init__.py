@@ -1,10 +1,12 @@
 import datetime
 import calendar
 
+from app.common.utils.errors import JOB_UPDATE_SIZE_INVALID_ERROR
+
 
 def check_size(size: float):
     if '.' in str(size) and len(str(size).split('.')[-1]) > 1:
-        raise ValueError('SIZE NOT AVAILABLE')
+        raise ValueError(JOB_UPDATE_SIZE_INVALID_ERROR)
 
 
 def get_next_time(time_zone, last_at, time_day, time_hour, can_eq=False):
