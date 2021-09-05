@@ -1,5 +1,6 @@
 from app.common.models.icpdao.dao import DAO
 from app.common.models.icpdao.user import UserStatus
+from app.common.utils.errors import COMMON_NOT_PERMISSION_ERROR, COMMON_NOT_FOUND_DAO_ERROR
 
 
 def is_dao_owner(user, dao_id=None, dao=None):
@@ -23,12 +24,12 @@ def check_is_not_dao_owner(user, dao_id=None, dao=None):
     judge, err = is_dao_owner(user, dao_id, dao)
     if not judge:
         return True
-    raise PermissionError('NOT RIGHT NOT OWNER ACCESS')
+    raise PermissionError(COMMON_NOT_PERMISSION_ERROR)
 
 
 def check_is_icpper(user):
     if not user:
-        raise ValueError('NOT FOUND DAO')
+        raise ValueError(COMMON_NOT_FOUND_DAO_ERROR)
     if user.status != UserStatus.ICPPER.value:
-        raise PermissionError('NOT RIGHT ICPPER ACCESS')
+        raise PermissionError(COMMON_NOT_PERMISSION_ERROR)
     return True
