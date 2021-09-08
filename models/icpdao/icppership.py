@@ -36,6 +36,9 @@ class Icppership(Document):
     mentor_user_id = StringField(required=True)
     icpper_user_id = StringField()
 
+    # 会给 mentor 产生奖励的子孙 icpper 数量（应该是 icpper_user_id 下的六级数量）
+    has_reward_icpper_count = IntField()
+
     # 创建时间
     create_at = IntField(required=True, default=time.time)
 
