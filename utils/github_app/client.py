@@ -4,7 +4,7 @@ import iso8601
 import requests
 import base64
 
-from app.common.models.icpdao.job import JobPRStatusEnum
+from ...models.icpdao.job import JobPRStatusEnum
 
 
 class GithubAPIRequest:

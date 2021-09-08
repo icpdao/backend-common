@@ -1,7 +1,7 @@
 import datetime
 import calendar
 
-from app.common.utils.errors import JOB_UPDATE_SIZE_INVALID_ERROR
+from .errors import JOB_UPDATE_SIZE_INVALID_ERROR
 
 
 def check_size(size: float):
