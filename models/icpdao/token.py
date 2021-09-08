@@ -48,6 +48,7 @@ class MintRecordStatusEnum(enum.Enum):
     PENDING = 1
     SUCCESS = 2
     FAIL = 3
+    DROPED = 100
 
 
 class TokenMintRecord(Document):
