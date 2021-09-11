@@ -1,3 +1,4 @@
+import decimal
 import enum
 import time
 
@@ -7,6 +8,21 @@ from mongoengine import EmbeddedDocument, Document, EmbeddedDocumentListField, S
 class TokenTransferEventLog(EmbeddedDocument):
     to_address = StringField(required=True)
     value = DecimalField(required=True)
+
+
+class MintRadtio:
+    ICPPER_RATIO = decimal.Decimal("0.95")
+    MENTOR_BASE_ALL_RATIO = decimal.Decimal("0.05")
+
+    MENTOR_7_LELVES_RATIO_LIST = [
+        decimal.Decimal("0.5"),
+        decimal.Decimal("0.25"),
+        decimal.Decimal("0.13"),
+        decimal.Decimal("0.06"),
+        decimal.Decimal("0.03"),
+        decimal.Decimal("0.02"),
+        decimal.Decimal("0.01")
+    ]
 
 
 class MintIcpperRecordMeta(EmbeddedDocument):
@@ -27,7 +43,7 @@ class MintIcpperRecordMeta(EmbeddedDocument):
 class MintIcpperRecord(EmbeddedDocument):
     user_id = StringField(required=True)
     user_eth_address = StringField(required=True)
-    user_radio = DecimalField(required=True)  # size * 10000 * 0.95
+    user_ratio = DecimalField(required=True)
     # 按照顺序保存 上级，上上级...上七级
     mentor_list = EmbeddedDocumentListField(MintIcpperRecordMeta)
 
@@ -47,6 +63,7 @@ class TokenMintRecord(Document):
     }
     dao_id = StringField(required=True)
     token_contract_address = StringField(required=True)
+    chain_id = StringField(required=True)
 
     status = IntField(
         required=True,
@@ -63,8 +80,8 @@ class TokenMintRecord(Document):
     # mint params
     mint_token_address_list = ListField(StringField())
     mint_token_amount_ratio_list = ListField(IntField())
-    start_timestamp = IntField(required=True, default=time.time)
-    end_timestamp = IntField(required=True, default=time.time)
+    start_timestamp = IntField(required=True)
+    end_timestamp = IntField(required=True)
     tick_lower = IntField(required=True)
     tick_upper = IntField(required=True)
 
@@ -73,7 +90,6 @@ class TokenMintRecord(Document):
 
     # eth
     mint_tx_hash = StringField()
-    network = StringField()
 
     create_at = IntField(required=True, default=time.time)
     update_at = IntField(required=True, default=time.time)

@@ -1,6 +1,7 @@
 from graphene_mongo import MongoengineObjectType
 
 from ..models.icpdao.job import Job, JobPR
+from ..models.icpdao.token import TokenMintRecord
 from ..models.icpdao.user import User as UserModel
 from ..models.icpdao.dao import DAO as DAOModel, \
     DAOJobConfig as DAOJobConfigModel, DAOFollow
@@ -108,3 +109,8 @@ class CycleVoteSchema(MongoengineObjectType):
         if CycleVoteSchema.have_view_voter_id_role(info, self):
             return self.voter_id
         return None
+
+
+class TokenMintRecordSchema(MongoengineObjectType):
+    class Meta:
+        model = TokenMintRecord
