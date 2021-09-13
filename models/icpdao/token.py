@@ -94,6 +94,7 @@ class TokenMintRecord(Document):
     create_at = IntField(required=True, default=time.time)
     update_at = IntField(required=True, default=time.time)
     drop_at = IntField()
+    last_sync_event_at = IntField()
 
 
 class MentorTokenIncomeStat(Document):
