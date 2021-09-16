@@ -56,4 +56,6 @@ CYCLE_UPDATE_EI_VALUE_INVALID_ERROR = 'error.cycle_ei_update.value_invalid'
 
 DAO_LIST_QUERY_NOT_USER_ERROR = 'error.dao_List.no_user'
 
-
+TOKEN_MINT_RECORD_QUERY_CYCLES_BY_PARAMS_NO_START_CYCLE = "error.token_mint_record.query_cycles_by_params.no_start_cycle"
+TOKEN_MINT_RECORD_QUERY_CYCLES_BY_PARAMS_NO_END_CYCLE = "error.token_mint_record.query_cycles_by_params.no_end_cycle"
+TOKEN_MINT_RECORD_QUERY_CYCLES_BY_PARAMS_START_CYCLE_NOT_IN_END_CYCLE_BEFORE = "error.token_mint_record.query_cycles_by_params.start_cycle_not_in_end_cycle_before"
