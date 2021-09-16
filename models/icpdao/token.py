@@ -7,7 +7,7 @@ from mongoengine import EmbeddedDocument, Document, EmbeddedDocumentListField, S
 
 class TokenTransferEventLog(EmbeddedDocument):
     to_address = StringField(required=True)
-    value = DecimalField(required=True)
+    value = IntField(required=True)
 
 
 class MintRadtio:
@@ -37,13 +37,13 @@ class MintIcpperRecordMeta(EmbeddedDocument):
     """
     mentor_id = StringField()
     mentor_eth_address = StringField()
-    mentor_radio = DecimalField()
+    mentor_radio = IntField()
 
 
 class MintIcpperRecord(EmbeddedDocument):
     user_id = StringField(required=True)
     user_eth_address = StringField(required=True)
-    user_ratio = DecimalField(required=True)
+    user_ratio = IntField(required=True)
     # 按照顺序保存 上级，上上级...上七级
     mentor_list = EmbeddedDocumentListField(MintIcpperRecordMeta)
 
@@ -64,6 +64,9 @@ class TokenMintRecord(Document):
     dao_id = StringField(required=True)
     token_contract_address = StringField(required=True)
     chain_id = StringField(required=True)
+    start_cycle_id = StringField()
+    end_cycle_id = StringField()
+    cycle_ids = ListField(StringField())
 
     status = IntField(
         required=True,
@@ -90,6 +93,9 @@ class TokenMintRecord(Document):
 
     # eth
     mint_tx_hash = StringField()
+    block_number = IntField()
+
+    mint_params_has_diff = BooleanField()
 
     create_at = IntField(required=True, default=time.time)
     update_at = IntField(required=True, default=time.time)
