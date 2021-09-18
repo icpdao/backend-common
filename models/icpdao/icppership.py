@@ -56,3 +56,19 @@ class MentorRelationStat(Document):
     relation = BooleanField(required=True, default=True)  # mentor icpper 关系是否还在保持
     has_reward_icpper_count = IntField()
     token_count = IntField()
+
+
+class MentorLevel7IcpperCountStat(Document):
+    meta = {
+        'db_alias': 'icpdao',
+        'collection': 'mentor_level7_icpper_count_stat'
+    }
+
+    mentor_id = StringField(required=True)
+    level_1_count = IntField(required=True)
+    level_2_count = IntField(required=True)
+    level_3_count = IntField(required=True)
+    level_4_count = IntField(required=True)
+    level_5_count = IntField(required=True)
+    level_6_count = IntField(required=True)
+    level_7_count = IntField(required=True)
