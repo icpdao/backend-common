@@ -1,6 +1,6 @@
 import time
 
-from mongoengine import Document, StringField, IntField, SequenceField
+from mongoengine import Document, StringField, IntField, SequenceField, BooleanField
 
 
 class DAO(Document):
@@ -72,6 +72,8 @@ class DAOJobConfig(Document):
     voting_begin_hour = IntField(required=True, max_value=24, min_value=0, default=12)
     voting_end_day = IntField(required=True, max_value=28, min_value=1, default=3)
     voting_end_hour = IntField(required=True, max_value=24, min_value=0, default=12)
+
+    manual = BooleanField(required=True, default=True)
 
     # 创建时间
     create_at = IntField(required=True, default=time.time)
