@@ -3,6 +3,7 @@ COMMON_NOT_AUTH_ERROR = 'error.common.not_login'
 COMMON_NOT_PERMISSION_ERROR = 'error.common.not_permission'
 COMMON_TIMEOUT_ERROR = 'error.common.timeout'
 COMMON_NOT_FOUND_DAO_ERROR = 'error.common.not_dao'
+COMMON_PARAMS_INVALID = 'error.common.invalid'
 
 ICPPER_NOT_FOUND_ERROR = 'error.icpper.not_found'
 ICPPER_LOOP_BACK_ERROR = 'error.icpper.loop_back'
