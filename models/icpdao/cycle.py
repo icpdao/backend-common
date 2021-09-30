@@ -111,9 +111,9 @@ class CycleIcpperStat(Document):
     # have two times lt 0.4
     have_two_times_lt_04 = BooleanField()
 
-    vote_ei = DecimalField(required=True, precision=2)
-    owner_ei = DecimalField(required=True, precision=2)
-    ei = DecimalField(required=True, precision=2)
+    vote_ei = DecimalField(precision=2)
+    owner_ei = DecimalField(precision=2)
+    ei = DecimalField(precision=2)
 
     # current cycle have warning review user id list
     be_reviewer_has_warning_user_ids = ListField(default=[])
