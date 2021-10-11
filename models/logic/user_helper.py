@@ -39,12 +39,16 @@ def icppership_cancle_accept(icppership):
 
 
 def pre_icpper_to_icpper(user_id):
-    user = User.objects(id=user_id).first()
-    if user.status == UserStatus.PRE_ICPPER.value:
+    user_is = Icppership.objects(
+        icpper_user_id=str(user_id),
+        status=IcppershipStatus.PRE_ICPPER.value,
+        progress=IcppershipProgress.ACCEPT.value
+    ).first()
+    if user_is:
+        user = User.objects(id=user_id).first()
         user.status = UserStatus.ICPPER.value
         user.save()
 
-        user_is = Icppership.objects(icpper_user_id=str(user_id)).first()
         user_is.status = IcppershipStatus.ICPPER.value
         user_is.icpper_at = int(time.time())
         user_is.save()
