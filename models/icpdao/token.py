@@ -7,7 +7,7 @@ from mongoengine import EmbeddedDocument, Document, EmbeddedDocumentListField, S
 
 class TokenTransferEventLog(EmbeddedDocument):
     to_address = StringField(required=True)
-    value = IntField(required=True)
+    value = DecimalField(required=True)
 
 
 class MintRadtio:
@@ -37,13 +37,13 @@ class MintIcpperRecordMeta(EmbeddedDocument):
     """
     mentor_id = StringField()
     mentor_eth_address = StringField()
-    mentor_radio = IntField()
+    mentor_radio = DecimalField()
 
 
 class MintIcpperRecord(EmbeddedDocument):
     user_id = StringField(required=True)
     user_eth_address = StringField(required=True)
-    user_ratio = IntField(required=True)
+    user_ratio = DecimalField(required=True)
     # 按照顺序保存 上级，上上级...上七级
     mentor_list = EmbeddedDocumentListField(MintIcpperRecordMeta)
 
@@ -82,7 +82,7 @@ class TokenMintRecord(Document):
 
     # mint params
     mint_token_address_list = ListField(StringField())
-    mint_token_amount_ratio_list = ListField(IntField())
+    mint_token_amount_ratio_list = ListField(DecimalField())
     start_timestamp = IntField(required=True)
     end_timestamp = IntField(required=True)
     tick_lower = IntField(required=True)
