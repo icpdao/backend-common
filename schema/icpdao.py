@@ -8,6 +8,9 @@ from ..models.icpdao.dao import DAO as DAOModel, \
 from ..models.icpdao.cycle import Cycle, CycleIcpperStat, CycleVote
 from ..utils.route_helper import get_custom_attr_by_graphql, get_current_user_by_graphql
 
+# 在 引入 graphene_mongo 以后，引入补丁，不要去掉，更不要改变循序
+from ..models.extension.graphene_decimal128 import convert_field_to_float_1
+
 
 class UserSchema(MongoengineObjectType):
     class Meta:

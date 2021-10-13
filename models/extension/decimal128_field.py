@@ -6,6 +6,16 @@ from bson.decimal128 import Decimal128, create_decimal128_context
 from mongoengine.fields import BaseField
 
 
+def any_to_decimal(value):
+    if isinstance(value, Decimal128):
+        return value.to_decimal()
+    if isinstance(value, int):
+        value = str(value)
+    if isinstance(value, float):
+        value = str(value)
+    return decimal.Decimal(value)
+
+
 class Decimal128Field(BaseField):
     """
 
@@ -17,9 +27,17 @@ class Decimal128Field(BaseField):
 
     DECIMAL_CONTEXT = create_decimal128_context()
 
-    def __init__(self, min_value=None, max_value=None, **kwargs):
+    def __init__(self,
+         min_value=None,
+         max_value=None,
+         precision=2,
+         rounding=decimal.ROUND_HALF_UP,
+         **kwargs
+    ):
         self.min_value = min_value
         self.max_value = max_value
+        self.precision = precision
+        self.rounding = rounding
         super().__init__(**kwargs)
 
     def to_mongo(self, value):
@@ -30,16 +48,26 @@ class Decimal128Field(BaseField):
         if not isinstance(value, decimal.Decimal):
             with decimal.localcontext(self.DECIMAL_CONTEXT) as ctx:
                 value = ctx.create_decimal(value)
+        value = value.quantize(
+            decimal.Decimal(".%s" % ("0" * self.precision)), rounding=self.rounding
+        )
         return Decimal128(value)
 
     def to_python(self, value):
         if value is None:
             return None
-        return self.to_mongo(value).to_decimal()
+        value = self.to_mongo(value).to_decimal()
+        return value.quantize(
+            decimal.Decimal(".%s" % ("0" * self.precision)), rounding=self.rounding
+        )
 
     def validate(self, value):
         if not isinstance(value, Decimal128):
             try:
+                if isinstance(value, int):
+                    value = str(value)
+                if isinstance(value, float):
+                    value = str(value)
                 value = Decimal128(value)
             except (TypeError, ValueError, decimal.InvalidOperation) as exc:
                 self.error("Could not convert value to Decimal128: %s" % exc)

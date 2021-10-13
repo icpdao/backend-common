@@ -1,8 +1,10 @@
 import enum
 import time
 
-from mongoengine import Document, EmbeddedDocument, BooleanField, IntField, StringField, DecimalField, EnumField, \
+from mongoengine import Document, EmbeddedDocument, BooleanField, IntField, StringField, \
     EmbeddedDocumentListField, ListField
+
+from ..extension.decimal128_field import Decimal128Field
 
 
 class CycleVoteType(enum.Enum):
@@ -100,10 +102,10 @@ class CycleIcpperStat(Document):
 
     job_count = IntField(required=True, default=0)
     # all merged job size
-    job_size = DecimalField(required=True, precision=1, default=0)
+    job_size = Decimal128Field(required=True, precision=1, default="0")
     # get size
-    size = DecimalField(required=True, precision=1, default=0)
-    income = DecimalField(required=True, precision=3, default=0)
+    size = Decimal128Field(required=True, precision=1, default="0")
+    income = Decimal128Field(required=True, precision=3, default="0")
     # at the vote end , not voted all vote
     un_voted_all_vote = BooleanField()
     # have two times lt 0.8
@@ -111,14 +113,14 @@ class CycleIcpperStat(Document):
     # have two times lt 0.4
     have_two_times_lt_04 = BooleanField()
 
-    vote_ei = DecimalField(precision=2)
-    owner_ei = DecimalField(precision=2)
-    ei = DecimalField(precision=2)
+    vote_ei = Decimal128Field(precision=2)
+    owner_ei = Decimal128Field(precision=2)
+    ei = Decimal128Field(precision=2)
 
     # current cycle have warning review user id list
     be_reviewer_has_warning_user_ids = ListField(default=[])
     # review 扣除的 size
-    be_deducted_size_by_review = DecimalField(precision=2)
+    be_deducted_size_by_review = Decimal128Field(precision=2)
 
     # user_id 在 dao_id 中的上一个 cycle_icpper_stat.id
     last_id = StringField()
