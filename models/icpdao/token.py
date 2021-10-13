@@ -2,12 +2,14 @@ import decimal
 import enum
 import time
 
-from mongoengine import EmbeddedDocument, Document, EmbeddedDocumentListField, StringField, IntField, EnumField, DecimalField, ListField, BooleanField
+from mongoengine import EmbeddedDocument, Document, EmbeddedDocumentListField, StringField, IntField, ListField, BooleanField
+
+from ..extension.decimal128_field import Decimal128Field
 
 
 class TokenTransferEventLog(EmbeddedDocument):
     to_address = StringField(required=True)
-    value = DecimalField(required=True)
+    value = Decimal128Field(required=True)
 
 
 class MintRadtio:
@@ -37,13 +39,13 @@ class MintIcpperRecordMeta(EmbeddedDocument):
     """
     mentor_id = StringField()
     mentor_eth_address = StringField()
-    mentor_radio = DecimalField()
+    mentor_radio = Decimal128Field()
 
 
 class MintIcpperRecord(EmbeddedDocument):
     user_id = StringField(required=True)
     user_eth_address = StringField(required=True)
-    user_ratio = DecimalField(required=True)
+    user_ratio = Decimal128Field(required=True)
     # 按照顺序保存 上级，上上级...上七级
     mentor_list = EmbeddedDocumentListField(MintIcpperRecordMeta)
 
@@ -77,19 +79,19 @@ class TokenMintRecord(Document):
     mint_icpper_records = EmbeddedDocumentListField(MintIcpperRecord)
     token_transfer_event_logs = EmbeddedDocumentListField(TokenTransferEventLog)
 
-    total_real_size = DecimalField(required=True)
-    unit_real_size_value = DecimalField()
+    total_real_size = Decimal128Field(required=True)
+    unit_real_size_value = Decimal128Field()
 
     # mint params
     mint_token_address_list = ListField(StringField())
-    mint_token_amount_ratio_list = ListField(DecimalField())
+    mint_token_amount_ratio_list = ListField(Decimal128Field())
     start_timestamp = IntField(required=True)
     end_timestamp = IntField(required=True)
     tick_lower = IntField(required=True)
     tick_upper = IntField(required=True)
 
     # mint result
-    mint_value = DecimalField()
+    mint_value = Decimal128Field()
 
     # eth
     mint_tx_hash = StringField()
@@ -119,4 +121,4 @@ class MentorTokenIncomeStat(Document):
     token_contract_address = StringField(required=True)
     token_name = StringField(required=True)
     token_symbol = StringField(required=True)
-    total_value = DecimalField(required=True)
+    total_value = Decimal128Field(required=True)

@@ -2,7 +2,8 @@ import enum
 import time
 
 
-from mongoengine import Document, StringField, IntField, EnumField, DecimalField, ListField, BooleanField
+from mongoengine import Document, StringField, IntField, ListField, BooleanField
+from ..extension.decimal128_field import Decimal128Field
 
 
 class JobStatusEnum(enum.Enum):
@@ -36,7 +37,7 @@ class Job(Document):
     # TODO 增加 labels 处理
     labels = ListField(StringField())
 
-    size = DecimalField(required=True, precision=1)
+    size = Decimal128Field(required=True, precision=1)
 
     github_repo_owner = StringField(required=True)
     github_repo_name = StringField(required=True)
@@ -50,7 +51,7 @@ class Job(Document):
                       choices=[i.value for i in list(JobStatusEnum)])
     had_auto_create_pr = BooleanField(required=True, default=False)
     # income only exist in TOKEN_RELEASED
-    income = DecimalField(required=True, precision=3, default=0)
+    income = Decimal128Field(required=True, precision=3, default="0")
 
     # vote type
     pair_type = IntField(required=True,
