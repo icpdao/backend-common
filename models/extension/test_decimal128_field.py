@@ -1,3 +1,4 @@
+import decimal
 import json
 from os import getenv
 import random
@@ -48,6 +49,7 @@ class Decimal128Document(Document):
     dec128_fld = Decimal128Field()
     dec128_min_0 = Decimal128Field(min_value=0)
     dec128_max_100 = Decimal128Field(max_value=100)
+    dec128_precision = Decimal128Field(precision=18)
 
 
 def generate_test_cls() -> Document:
@@ -180,3 +182,9 @@ class TestDecimal128Field(MongoDBTestCase):
             total += rd
             Decimal128Document(dec128_fld=rd).save()
         assert Decimal128Document.objects().sum('dec128_fld').to_decimal() == total
+
+    def test_dec128_precision(self):
+        Decimal128Document.drop_collection()
+        Decimal128Document(dec128_precision=decimal.Decimal("0.1234567891234567891")).save()
+        doc = Decimal128Document.objects().first()
+        assert doc.dec128_precision == decimal.Decimal("0.123456789123456789")
