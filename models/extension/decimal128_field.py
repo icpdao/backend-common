@@ -30,7 +30,7 @@ class Decimal128Field(BaseField):
     def __init__(self,
          min_value=None,
          max_value=None,
-         precision=2,
+         precision=None,
          rounding=decimal.ROUND_HALF_UP,
          **kwargs
     ):
@@ -48,18 +48,21 @@ class Decimal128Field(BaseField):
         if not isinstance(value, decimal.Decimal):
             with decimal.localcontext(self.DECIMAL_CONTEXT) as ctx:
                 value = ctx.create_decimal(value)
-        value = value.quantize(
-            decimal.Decimal(".%s" % ("0" * self.precision)), rounding=self.rounding
-        )
+        if self.precision is not None:
+            value = value.quantize(
+                decimal.Decimal(".%s" % ("0" * self.precision)), rounding=self.rounding
+            )
         return Decimal128(value)
 
     def to_python(self, value):
         if value is None:
             return None
         value = self.to_mongo(value).to_decimal()
-        return value.quantize(
-            decimal.Decimal(".%s" % ("0" * self.precision)), rounding=self.rounding
-        )
+        if self.precision is not None:
+            value = value.quantize(
+                decimal.Decimal(".%s" % ("0" * self.precision)), rounding=self.rounding
+            )
+        return value
 
     def validate(self, value):
         if not isinstance(value, Decimal128):

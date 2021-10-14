@@ -9,6 +9,7 @@ from ..extension.decimal128_field import Decimal128Field
 
 class TokenTransferEventLog(EmbeddedDocument):
     to_address = StringField(required=True)
+    # unit = 1 token
     value = Decimal128Field(required=True)
 
 
@@ -80,6 +81,7 @@ class TokenMintRecord(Document):
     token_transfer_event_logs = EmbeddedDocumentListField(TokenTransferEventLog)
 
     total_real_size = Decimal128Field(required=True)
+    # unit = 1 token
     unit_real_size_value = Decimal128Field()
 
     # mint params
@@ -91,6 +93,7 @@ class TokenMintRecord(Document):
     tick_upper = IntField(required=True)
 
     # mint result
+    # unit = 1 token
     mint_value = Decimal128Field()
 
     # eth
