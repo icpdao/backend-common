@@ -62,3 +62,5 @@ TOKEN_MINT_RECORD_QUERY_CYCLES_BY_PARAMS_NO_END_CYCLE = "error.token_mint_record
 TOKEN_MINT_RECORD_QUERY_CYCLES_BY_PARAMS_START_CYCLE_NOT_IN_END_CYCLE_BEFORE = "error.token_mint_record.query_cycles_by_params.start_cycle_not_in_end_cycle_before"
 
 TOKEN_MINT_RECORD_CREATE_HAVE_UN_DONE_RECORD = "error.token_mint_record.create.have_un_done_record"
+
+DAO_NOT_TOKEN_ADDRESS_ERROR = "error.dao.no_token_address"

@@ -2,7 +2,7 @@ import enum
 import time
 
 
-from mongoengine import Document, StringField, IntField, ListField, BooleanField
+from mongoengine import Document, StringField, IntField, ListField, BooleanField, EmbeddedDocument, EmbeddedDocumentListField
 from ..extension.decimal128_field import Decimal128Field
 
 
@@ -22,6 +22,11 @@ class JobPairTypeEnum(enum.Enum):
 class JobPRStatusEnum(enum.Enum):
     AWAITING_MERGER = 0
     MERGED = 1
+
+
+class TokenIncome(EmbeddedDocument):
+    token_contract_address = StringField(required=True)
+    income = Decimal128Field(required=True, precision=3, default=0)
 
 
 class Job(Document):
@@ -50,8 +55,10 @@ class Job(Document):
                       default=JobStatusEnum.AWAITING_MERGER.value,
                       choices=[i.value for i in list(JobStatusEnum)])
     had_auto_create_pr = BooleanField(required=True, default=False)
-    # income only exist in TOKEN_RELEASED
+    # income/incomes only exist in TOKEN_RELEASED
+    # Deprecated: use incomes instead income
     income = Decimal128Field(required=True, precision=3, default=0)
+    incomes = EmbeddedDocumentListField(TokenIncome)
 
     # vote type
     pair_type = IntField(required=True,

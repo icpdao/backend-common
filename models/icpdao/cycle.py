@@ -4,6 +4,7 @@ import time
 from mongoengine import Document, EmbeddedDocument, BooleanField, IntField, StringField, \
     EmbeddedDocumentListField, ListField
 
+from .job import TokenIncome
 from ..extension.decimal128_field import Decimal128Field
 
 
@@ -105,7 +106,10 @@ class CycleIcpperStat(Document):
     job_size = Decimal128Field(required=True, precision=1, default=0)
     # get size
     size = Decimal128Field(required=True, precision=1, default=0)
+    # Deprecated: use incomes instead income
     income = Decimal128Field(required=True, precision=3, default=0)
+    incomes = EmbeddedDocumentListField(TokenIncome)
+
     # at the vote end , not voted all vote
     un_voted_all_vote = BooleanField()
     # have two times lt 0.8
