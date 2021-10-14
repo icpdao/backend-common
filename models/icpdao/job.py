@@ -51,7 +51,7 @@ class Job(Document):
                       choices=[i.value for i in list(JobStatusEnum)])
     had_auto_create_pr = BooleanField(required=True, default=False)
     # income only exist in TOKEN_RELEASED
-    income = Decimal128Field(required=True, precision=3, default="0")
+    income = Decimal128Field(required=True, precision=3, default=0)
 
     # vote type
     pair_type = IntField(required=True,
