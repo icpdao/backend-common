@@ -102,10 +102,10 @@ class CycleIcpperStat(Document):
 
     job_count = IntField(required=True, default=0)
     # all merged job size
-    job_size = Decimal128Field(required=True, precision=1, default="0")
+    job_size = Decimal128Field(required=True, precision=1, default=0)
     # get size
-    size = Decimal128Field(required=True, precision=1, default="0")
-    income = Decimal128Field(required=True, precision=3, default="0")
+    size = Decimal128Field(required=True, precision=1, default=0)
+    income = Decimal128Field(required=True, precision=3, default=0)
     # at the vote end , not voted all vote
     un_voted_all_vote = BooleanField()
     # have two times lt 0.8
