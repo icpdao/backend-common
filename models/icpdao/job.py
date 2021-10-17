@@ -2,7 +2,9 @@ import enum
 import time
 
 
-from mongoengine import Document, StringField, IntField, ListField, BooleanField, EmbeddedDocument, EmbeddedDocumentListField
+from mongoengine import Document, StringField, IntField, ListField, BooleanField, EmbeddedDocumentListField
+
+from .base import TokenIncome, TokenIncomeQuerySet
 from ..extension.decimal128_field import Decimal128Field
 
 
@@ -24,15 +26,11 @@ class JobPRStatusEnum(enum.Enum):
     MERGED = 1
 
 
-class TokenIncome(EmbeddedDocument):
-    token_contract_address = StringField(required=True)
-    income = Decimal128Field(required=True, precision=3, default=0)
-
-
 class Job(Document):
     meta = {
         'db_alias': 'icpdao',
-        'collection': 'job'
+        'collection': 'job',
+        'queryset_class': TokenIncomeQuerySet
     }
     dao_id = StringField(required=True)
     user_id = StringField(required=True)

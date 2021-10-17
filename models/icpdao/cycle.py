@@ -4,7 +4,7 @@ import time
 from mongoengine import Document, EmbeddedDocument, BooleanField, IntField, StringField, \
     EmbeddedDocumentListField, ListField
 
-from .job import TokenIncome
+from .base import TokenIncome, TokenIncomeQuerySet
 from ..extension.decimal128_field import Decimal128Field
 
 
@@ -94,7 +94,8 @@ class Cycle(Document):
 class CycleIcpperStat(Document):
     meta = {
         'db_alias': 'icpdao',
-        'collection': 'cycle_icpper_stat'
+        'collection': 'cycle_icpper_stat',
+        'queryset_class': TokenIncomeQuerySet
     }
 
     dao_id = StringField(required=True)

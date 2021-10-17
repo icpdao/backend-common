@@ -1,5 +1,7 @@
+from graphene import List
 from graphene_mongo import MongoengineObjectType
 
+from .incomes import TokenIncomeSchema
 from ..models.icpdao.job import Job, JobPR
 from ..models.icpdao.token import TokenMintRecord
 from ..models.icpdao.user import User as UserModel
@@ -36,8 +38,18 @@ class DAOFollowSchema(MongoengineObjectType):
 
 
 class JobSchema(MongoengineObjectType):
+    incomes = List(TokenIncomeSchema)
+
     class Meta:
         model = Job
+        exclude_fields = ['incomes']
+
+    def resolve_incomes(self, info):
+        return [TokenIncomeSchema(
+            token_chain_id=income.token_chain_id,
+            token_address=income.token_address,
+            income=income.income
+        ) for income in self.incomes]
 
 
 class JobPRSchema(MongoengineObjectType):
@@ -51,8 +63,11 @@ class CycleSchema(MongoengineObjectType):
 
 
 class CycleIcpperStatSchema(MongoengineObjectType):
+    incomes = List(TokenIncomeSchema)
+
     class Meta:
         model = CycleIcpperStat
+        exclude_fields = ['incomes']
 
     def resolve_vote_ei(self, info):
         dao_owner_id = get_custom_attr_by_graphql(info, 'dao_owner_id')
@@ -73,6 +88,13 @@ class CycleIcpperStatSchema(MongoengineObjectType):
             return None
 
         return self.owner_ei
+
+    def resolve_incomes(self, info):
+        return [TokenIncomeSchema(
+            token_chain_id=income.token_chain_id,
+            token_address=income.token_address,
+            income=income.income
+        ) for income in self.incomes]
 
 
 class CycleVoteSchema(MongoengineObjectType):
