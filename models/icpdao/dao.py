@@ -21,6 +21,7 @@ class DAO(Document):
     # github owner name
     github_owner_name = StringField(required=True)
 
+    token_chain_id = StringField()
     token_address = StringField()
     token_name = StringField()
     token_symbol = StringField()

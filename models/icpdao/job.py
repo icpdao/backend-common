@@ -2,7 +2,9 @@ import enum
 import time
 
 
-from mongoengine import Document, StringField, IntField, ListField, BooleanField
+from mongoengine import Document, StringField, IntField, ListField, BooleanField, EmbeddedDocumentListField
+
+from .base import TokenIncome, TokenIncomeQuerySet
 from ..extension.decimal128_field import Decimal128Field
 
 
@@ -27,7 +29,8 @@ class JobPRStatusEnum(enum.Enum):
 class Job(Document):
     meta = {
         'db_alias': 'icpdao',
-        'collection': 'job'
+        'collection': 'job',
+        'queryset_class': TokenIncomeQuerySet
     }
     dao_id = StringField(required=True)
     user_id = StringField(required=True)
@@ -50,8 +53,10 @@ class Job(Document):
                       default=JobStatusEnum.AWAITING_MERGER.value,
                       choices=[i.value for i in list(JobStatusEnum)])
     had_auto_create_pr = BooleanField(required=True, default=False)
-    # income only exist in TOKEN_RELEASED
+    # income/incomes only exist in TOKEN_RELEASED
+    # Deprecated: use incomes instead income
     income = Decimal128Field(required=True, precision=3, default=0)
+    incomes = EmbeddedDocumentListField(TokenIncome)
 
     # vote type
     pair_type = IntField(required=True,
