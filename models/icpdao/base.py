@@ -23,7 +23,7 @@ class TokenIncomeQuerySet(QuerySet):
             return ret[0]["total"]
         return 0
 
-    def group_incomes(self, group_id: Optional[List[str]] = None):
+    def group_incomes(self, group_id: Optional[List[str]] = None, token_chain_id: Optional[str] = None):
         group_key = {
             "token_chain_id": "$incomes.token_chain_id",
             "token_address": "$incomes.token_address"
@@ -31,10 +31,19 @@ class TokenIncomeQuerySet(QuerySet):
         if group_id is not None:
             for _id in group_id:
                 group_key[_id] = f"${_id}"
-        ret = tuple(self.aggregate([
+        query = self
+        agg = [
             {"$unwind": "$incomes"},
             {"$group": {"_id": group_key, "income": {"$sum": "$incomes.income"}}},
-        ]))
+        ]
+        if token_chain_id is not None:
+            query = self.filter(incomes__token_chain_id=token_chain_id)
+            agg = [
+                {"$unwind": "$incomes"},
+                {"$match": {"incomes.token_chain_id": token_chain_id}},
+                {"$group": {"_id": group_key, "income": {"$sum": "$incomes.income"}}},
+            ]
+        ret = tuple(query.aggregate(agg))
         if not ret:
             return []
         schemas = [TokenIncomeSchema(
