@@ -13,10 +13,10 @@ class TokenIncome(EmbeddedDocument):
 
 
 class TokenIncomeQuerySet(QuerySet):
-    def sum_incomes(self, token_address: str) -> int:
-        ret = tuple(self.filter(incomes__token_address=token_address).aggregate([
+    def sum_incomes(self, token_chain_id: str) -> int:
+        ret = tuple(self.filter(incomes__token_chain_id=token_chain_id).aggregate([
             {"$unwind": "$incomes"},
-            {"$match": {"incomes.token_address": token_address}},
+            {"$match": {"incomes.token_chain_id": token_chain_id}},
             {"$group": {"_id": "sum", "total": {"$sum": "$incomes.income"}}},
         ]))
         if ret:
