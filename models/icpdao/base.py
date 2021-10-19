@@ -9,6 +9,7 @@ from ...schema.incomes import TokenIncomeSchema
 class TokenIncome(EmbeddedDocument):
     token_chain_id = StringField(required=True)
     token_address = StringField(required=True)
+    token_symbol = StringField(required=True)
     income = Decimal128Field(required=True, precision=3, default=0)
 
 
@@ -26,7 +27,8 @@ class TokenIncomeQuerySet(QuerySet):
     def group_incomes(self, group_id: Optional[List[str]] = None, token_chain_id: Optional[str] = None):
         group_key = {
             "token_chain_id": "$incomes.token_chain_id",
-            "token_address": "$incomes.token_address"
+            "token_address": "$incomes.token_address",
+            "token_symbol": "$incomes.token_symbol"
         }
         if group_id is not None:
             for _id in group_id:
@@ -49,6 +51,7 @@ class TokenIncomeQuerySet(QuerySet):
         schemas = [TokenIncomeSchema(
             token_chain_id=r["_id"]["token_chain_id"],
             token_address=r["_id"]["token_address"],
+            token_symbol=r["_id"]["token_symbol"],
             income=r["income"]
         ) for r in ret]
         return schemas

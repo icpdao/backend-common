@@ -48,6 +48,7 @@ class JobSchema(MongoengineObjectType):
         return [TokenIncomeSchema(
             token_chain_id=income.token_chain_id,
             token_address=income.token_address,
+            token_symbol=income.token_symbol,
             income=income.income
         ) for income in self.incomes]
 
@@ -93,6 +94,7 @@ class CycleIcpperStatSchema(MongoengineObjectType):
         return [TokenIncomeSchema(
             token_chain_id=income.token_chain_id,
             token_address=income.token_address,
+            token_symbol=income.token_symbol,
             income=income.income
         ) for income in self.incomes]
 

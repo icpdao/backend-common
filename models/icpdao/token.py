@@ -66,6 +66,7 @@ class TokenMintRecord(Document):
     }
     dao_id = StringField(required=True)
     token_contract_address = StringField(required=True)
+    token_symbol = StringField(required=True)
     chain_id = StringField(required=True)
     start_cycle_id = StringField()
     end_cycle_id = StringField()
