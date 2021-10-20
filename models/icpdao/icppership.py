@@ -1,6 +1,6 @@
 from enum import Enum
 import time
-from mongoengine import Document, StringField, IntField, BooleanField
+from mongoengine import Document, StringField, IntField, BooleanField, EmbeddedDocumentListField, EmbeddedDocument
 
 
 class IcppershipProgress(Enum):
@@ -46,6 +46,11 @@ class Icppership(Document):
     icpper_at = IntField()
 
 
+class MentorRelationStatTokenStat(EmbeddedDocument):
+    token_chain_id = StringField()
+    token_count = IntField()
+
+
 class MentorRelationStat(Document):
     meta = {
         'db_alias': 'icpdao',
@@ -55,7 +60,9 @@ class MentorRelationStat(Document):
     icpper_id = StringField(required=True)
     relation = BooleanField(required=True, default=True)  # mentor icpper 关系是否还在保持
     has_reward_icpper_count = IntField()
-    token_count = IntField()
+    token_stat = EmbeddedDocumentListField(MentorRelationStatTokenStat)
+    # token_chain_id = StringField()
+    # token_count = IntField()
 
 
 class MentorLevel7IcpperCountStat(Document):

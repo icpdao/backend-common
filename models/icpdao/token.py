@@ -122,7 +122,8 @@ class MentorTokenIncomeStat(Document):
     icpper_id = StringField(required=True)
 
     dao_id = StringField(required=True)
-    token_contract_address = StringField(required=True)
+    token_chain_id = StringField(required=True, default='1')
+    token_address = StringField(required=True)
     token_name = StringField(required=True)
     token_symbol = StringField(required=True)
     total_value = Decimal128Field(required=True)
