@@ -21,10 +21,28 @@ class DAO(Document):
     # github owner name
     github_owner_name = StringField(required=True)
 
+    # TODO 待删除
     token_chain_id = StringField()
     token_address = StringField()
     token_name = StringField()
     token_symbol = StringField()
+
+    # 创建时间
+    create_at = IntField(required=True, default=time.time)
+    update_at = IntField(required=True, default=time.time)
+
+
+class DAOToken(Document):
+    meta = {
+        'db_alias': 'icpdao',
+        'collection': 'dao_token'
+    }
+
+    dao_id = StringField(required=True)
+    token_chain_id = StringField(required=True)
+    token_address = StringField(required=True)
+    token_name = StringField(required=True)
+    token_symbol = StringField(required=True)
 
     # 创建时间
     create_at = IntField(required=True, default=time.time)
