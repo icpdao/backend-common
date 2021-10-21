@@ -6,7 +6,7 @@ from ..models.icpdao.job import Job, JobPR
 from ..models.icpdao.token import TokenMintRecord
 from ..models.icpdao.user import User as UserModel
 from ..models.icpdao.dao import DAO as DAOModel, \
-    DAOJobConfig as DAOJobConfigModel, DAOFollow
+    DAOJobConfig as DAOJobConfigModel, DAOFollow, DAOToken
 from ..models.icpdao.cycle import Cycle, CycleIcpperStat, CycleVote
 from ..utils.route_helper import get_custom_attr_by_graphql, get_current_user_by_graphql
 
@@ -22,6 +22,11 @@ class UserSchema(MongoengineObjectType):
 class DAOSchema(MongoengineObjectType):
     class Meta:
         model = DAOModel
+
+
+class DAOTokenSchema(MongoengineObjectType):
+    class Meta:
+        model = DAOToken
 
 
 class DAOJobConfigSchema(MongoengineObjectType):

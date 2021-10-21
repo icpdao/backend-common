@@ -85,6 +85,7 @@ class Cycle(Document):
     vote_result_stat_at = IntField()
     vote_result_published_at = IntField()
 
+    # TODO 待删除 没有什么用途
     token_released_at = IntField()
 
     create_at = IntField(required=True, default=time.time)
