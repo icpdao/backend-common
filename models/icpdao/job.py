@@ -54,6 +54,9 @@ class Job(Document):
                       choices=[i.value for i in list(JobStatusEnum)])
     had_auto_create_pr = BooleanField(required=True, default=False)
 
+    # TODO 待删除 没有什么用途，需要先把现有数据中的这个字段从数据库删除，不然 mongoengine 会报错
+    income = Decimal128Field()
+
     incomes = EmbeddedDocumentListField(TokenIncome)
 
     # vote type
