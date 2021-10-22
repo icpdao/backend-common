@@ -21,6 +21,12 @@ class DAO(Document):
     # github owner name
     github_owner_name = StringField(required=True)
 
+    # TODO 待删除 没有什么用途，需要先把现有数据中的这个字段从数据库删除，不然 mongoengine 会报错
+    token_chain_id = StringField()
+    token_address = StringField()
+    token_name = StringField()
+    token_symbol = StringField()
+
     # 创建时间
     create_at = IntField(required=True, default=time.time)
     update_at = IntField(required=True, default=time.time)
