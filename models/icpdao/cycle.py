@@ -85,9 +85,6 @@ class Cycle(Document):
     vote_result_stat_at = IntField()
     vote_result_published_at = IntField()
 
-    # TODO 待删除 没有什么用途
-    token_released_at = IntField()
-
     create_at = IntField(required=True, default=time.time)
     update_at = IntField(required=True, default=time.time)
 
@@ -108,8 +105,7 @@ class CycleIcpperStat(Document):
     job_size = Decimal128Field(required=True, precision=1, default=0)
     # get size
     size = Decimal128Field(required=True, precision=1, default=0)
-    # Deprecated: use incomes instead income
-    income = Decimal128Field(required=True, precision=3, default=0)
+
     incomes = EmbeddedDocumentListField(TokenIncome)
 
     # at the vote end , not voted all vote

@@ -53,9 +53,7 @@ class Job(Document):
                       default=JobStatusEnum.AWAITING_MERGER.value,
                       choices=[i.value for i in list(JobStatusEnum)])
     had_auto_create_pr = BooleanField(required=True, default=False)
-    # income/incomes only exist in TOKEN_RELEASED
-    # Deprecated: use incomes instead income
-    income = Decimal128Field(required=True, precision=3, default=0)
+
     incomes = EmbeddedDocumentListField(TokenIncome)
 
     # vote type
