@@ -22,6 +22,7 @@ class UserSchema(MongoengineObjectType):
 class DAOSchema(MongoengineObjectType):
     class Meta:
         model = DAOModel
+        exclude_fields = ['token_chain_id', 'token_address', 'token_name', 'token_symbol']
 
 
 class DAOTokenSchema(MongoengineObjectType):
@@ -47,7 +48,7 @@ class JobSchema(MongoengineObjectType):
 
     class Meta:
         model = Job
-        exclude_fields = ['incomes']
+        exclude_fields = ['incomes', 'income']
 
     def resolve_incomes(self, info):
         return [TokenIncomeSchema(
@@ -66,6 +67,7 @@ class JobPRSchema(MongoengineObjectType):
 class CycleSchema(MongoengineObjectType):
     class Meta:
         model = Cycle
+        exclude_fields = ['token_released_at']
 
 
 class CycleIcpperStatSchema(MongoengineObjectType):
@@ -73,7 +75,7 @@ class CycleIcpperStatSchema(MongoengineObjectType):
 
     class Meta:
         model = CycleIcpperStat
-        exclude_fields = ['incomes']
+        exclude_fields = ['incomes', 'income']
 
     def resolve_vote_ei(self, info):
         dao_owner_id = get_custom_attr_by_graphql(info, 'dao_owner_id')
