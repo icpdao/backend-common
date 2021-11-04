@@ -64,3 +64,6 @@ TOKEN_MINT_RECORD_QUERY_CYCLES_BY_PARAMS_START_CYCLE_NOT_IN_END_CYCLE_BEFORE = "
 TOKEN_MINT_RECORD_CREATE_HAVE_UN_DONE_RECORD = "error.token_mint_record.create.have_un_done_record"
 
 DAO_NOT_TOKEN_ADDRESS_ERROR = "error.dao.no_token_address"
+
+BIND_ACCOUNT_DISCORD_NOT_FOUND = "error.bind_account.discord_not_found"
+BIND_ACCOUNT_DISCORD_EXISTED = "error.bind_account.discord_existed"

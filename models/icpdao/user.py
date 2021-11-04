@@ -21,6 +21,11 @@ class User(Document):
     github_login = StringField(required=True, max_length=255)
     # github user id
     github_user_id = IntField(required=True)
+    # discord username
+    discord_username = StringField()
+    # discord user id
+    discord_user_id = StringField()
+
     # avatar
     avatar = StringField(required=True, max_length=255)
     # 用户类型
