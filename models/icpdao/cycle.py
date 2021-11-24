@@ -166,6 +166,8 @@ class CycleVote(Document):
 
     is_result_public = BooleanField(required=True, default=False)
 
+    is_repeat = BooleanField()
+
     create_at = IntField(required=True, default=time.time)
     update_at = IntField(required=True, default=time.time)
 
