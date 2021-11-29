@@ -186,6 +186,8 @@ class CycleVoteConfirm(Document):
     signature_msg = StringField()
     signature = StringField()
 
+    is_repeat = BooleanField()
+
     create_at = IntField(required=True, default=time.time)
     update_at = IntField(required=True, default=time.time)
 
