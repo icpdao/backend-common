@@ -120,6 +120,10 @@ class CycleVoteSchema(MongoengineObjectType):
         if current_user and cycle_vote.voter_id and cycle_vote.voter_id == str(current_user.id):
             return True
 
+        dao_owner_id = DAOModel.objects(id=cycle_vote.dao_id).first().owner_id
+        if cycle_vote.is_repeat is True and dao_owner_id == str(current_user.id):
+            return True
+
         return False
 
     @staticmethod
