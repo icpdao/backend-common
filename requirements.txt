@@ -1,7 +1,7 @@
 mongoengine==0.23.0
 fastapi==0.65.1
 graphene-mongo
-graphene>=2.0
+graphene==2.1.9
 requests==2.25.1
 PyJWT==2.0.1
 cryptography==3.4.7
